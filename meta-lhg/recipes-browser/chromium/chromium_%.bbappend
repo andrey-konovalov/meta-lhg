@@ -1,10 +1,10 @@
 PACKAGECONFIG_append = " ${@base_contains('MACHINE_FEATURES', 'optee', 'use-ocdm', '', d)}"
 
-OCDM_GIT_BRANCH="master"
+OCDM_GIT_BRANCH="for-chromium-53.0.2785.143"
 OCDM_DESTSUFIX="ocdm"
 
 SRC_URI += "${@bb.utils.contains('PACKAGECONFIG', 'use-ocdm', '\
-    git://github.com/linaro-home/open-content-decryption-module.git;protocol=https;branch=${OCDM_GIT_BRANCH};name=ocdm;destsuffix=${OCDM_DESTSUFIX}\
+    git://github.com/andrey-konovalov/open-content-decryption-module.git;protocol=https;branch=${OCDM_GIT_BRANCH};name=ocdm;destsuffix=${OCDM_DESTSUFIX}\
     ', '', d)}"
 SRCREV_ocdm = "${AUTOREV}"
 DEPENDS_append = " ${@bb.utils.contains('PACKAGECONFIG', 'use-ocdm', 'ocdmi', '', d)} "
