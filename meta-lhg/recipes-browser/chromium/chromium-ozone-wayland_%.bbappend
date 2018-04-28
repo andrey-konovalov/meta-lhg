@@ -1,6 +1,6 @@
 PACKAGECONFIG_append = " ${@bb.utils.contains('MACHINE_FEATURES', 'optee', 'use-ocdm', '', d)}  proprietary-codecs"
 
-OCDM_GIT_BRANCH="chromium-53.0.2785.143"
+OCDM_GIT_BRANCH="chromium-65.0.3315.0.r527534.igalia"
 OCDM_DESTSUFIX="ocdm"
 
 #This is deliberately separated from CHROMIUM_BUILD_TYPE so we can
@@ -9,7 +9,7 @@ OCDM_DESTSUFIX="ocdm"
 OCDM_CHROMIUM_BUILD_TYPE="Release"
 
 SRC_URI += "${@bb.utils.contains('PACKAGECONFIG', 'use-ocdm', '\
-    git://github.com/linaro-home/open-content-decryption-module.git;protocol=https;branch=${OCDM_GIT_BRANCH};name=ocdm;destsuffix=${OCDM_DESTSUFIX}\
+    git://github.com/andrey-konovalov/open-content-decryption-module.git;protocol=https;branch=${OCDM_GIT_BRANCH};name=ocdm;destsuffix=${OCDM_DESTSUFIX}\
     ', '', d)}"
 SRCREV_ocdm = "${AUTOREV}"
 DEPENDS_append = " ${@bb.utils.contains('PACKAGECONFIG', 'use-ocdm', 'ocdmi', '', d)} "
