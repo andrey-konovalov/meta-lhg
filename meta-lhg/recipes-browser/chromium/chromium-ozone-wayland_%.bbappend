@@ -1,6 +1,6 @@
 PACKAGECONFIG_append = " ${@bb.utils.contains('MACHINE_FEATURES', 'optee', 'use-ocdm', '', d)}  proprietary-codecs"
 
-OCDM_GIT_BRANCH="chromium-65.0.3315.0.r527534.igalia"
+OCDM_GIT_BRANCH="wip-chromium-65.0.3315.0.r527534.igalia"
 OCDM_DESTSUFIX="ocdm"
 
 #This is deliberately separated from CHROMIUM_BUILD_TYPE so we can
@@ -17,7 +17,7 @@ DEPENDS_append = " ${@bb.utils.contains('PACKAGECONFIG', 'use-ocdm', 'ocdmi', ''
 python add_ocdm_patches() {
     srcdir = d.getVar('WORKDIR', True)
     d.appendVar('SRC_URI', " file://" + srcdir + "/ocdm/patch/add_ocdm_keyssystems.patch")
-    d.appendVar('SRC_URI', " file://" + srcdir + "/ocdm/patch/add_playready_keysystem.patch")
+#    d.appendVar('SRC_URI', " file://" + srcdir + "/ocdm/patch/add_playready_keysystem.patch")
 }
 
 copy_ocdm_files() {
