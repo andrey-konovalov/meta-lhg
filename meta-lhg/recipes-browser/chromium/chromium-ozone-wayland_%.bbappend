@@ -1,4 +1,4 @@
-PACKAGECONFIG_append = " ${@bb.utils.contains('MACHINE_FEATURES', 'optee', 'use-ocdm', '', d)}  proprietary-codecs"
+PACKAGECONFIG_append = " ${@bb.utils.contains('MACHINE_FEATURES', 'optee', 'use-ocdm', '', d)}"
 
 OCDM_GIT_BRANCH="wip-chromium-65.0.3315.0.r527534.igalia"
 OCDM_DESTSUFIX="ocdm"
@@ -35,9 +35,9 @@ do_compile_append() {
 
 do_install_append() {
     if [ -n "${@bb.utils.contains('PACKAGECONFIG', 'use-ocdm', 'use-ocdm', '', d)}" ]; then
-        install -Dm 0755 ${B}/out/${OCDM_CHROMIUM_BUILD_TYPE}/libopencdmadapter.so \
-            ${D}${libdir}/${BPN}/libopencdmadapter.so
-        install -Dm 0755 ${B}/out/${OCDM_CHROMIUM_BUILD_TYPE}/libopencdm.so \
-            ${D}${libdir}/${BPN}/libopencdm.so
+        install -Dm 0755 ${B}/libopencdmadapter.so \
+            ${D}${libdir}/chromium/libopencdmadapter.so
+        install -Dm 0755 ${B}/libopencdm.so \
+            ${D}${libdir}/chromium/libopencdm.so
     fi
 }
