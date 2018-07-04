@@ -1,6 +1,8 @@
-PACKAGECONFIG_append = " ${@bb.utils.contains('MACHINE_FEATURES', 'optee', 'use-ocdm', '', d)}"
+PACKAGECONFIG[use-ocdm] = "enable_opencdm=true,enable_opencdm=false"
 
-OCDM_GIT_BRANCH="wip-chromium-65.0.3315.0.r527534.igalia"
+PACKAGECONFIG_append = " ${@bb.utils.contains('MACHINE_FEATURES', 'optee', 'use-ocdm', '', d)} proprietary-codecs"
+
+OCDM_GIT_BRANCH="wip2-chromium-65.0.3315.0.r527534.igalia"
 OCDM_DESTSUFIX="ocdm"
 
 #This is deliberately separated from CHROMIUM_BUILD_TYPE so we can
@@ -27,11 +29,11 @@ copy_ocdm_files() {
 do_patch[prefuncs] += "${@bb.utils.contains('PACKAGECONFIG', 'use-ocdm', 'add_ocdm_patches', '', d)}"
 do_unpack[postfuncs] += "${@bb.utils.contains('PACKAGECONFIG', 'use-ocdm', 'copy_ocdm_files', '', d)}"
 
-do_compile_append() {
-    if [ -n "${@bb.utils.contains('PACKAGECONFIG', 'use-ocdm', 'use-ocdm', '', d)}" ]; then
-        ninja -C ${S}/out/${OCDM_CHROMIUM_BUILD_TYPE} opencdmadapter
-    fi
-}
+#do_compile_append() {
+#    if [ -n "${@bb.utils.contains('PACKAGECONFIG', 'use-ocdm', 'use-ocdm', '', d)}" ]; then
+#        ninja -C ${S}/out/${OCDM_CHROMIUM_BUILD_TYPE} opencdmadapter
+#    fi
+#}
 
 do_install_append() {
     if [ -n "${@bb.utils.contains('PACKAGECONFIG', 'use-ocdm', 'use-ocdm', '', d)}" ]; then
