@@ -1,4 +1,4 @@
-From d61414bc17cf2df019510c2908048c4cabf5cf09 Mon Sep 17 00:00:00 2001
+From b860572b71495ff1692e88dea5212bb4ef4491f6 Mon Sep 17 00:00:00 2001
 From: Anuj Mittal <anuj.mittal@intel.com>
 Date: Tue, 27 Feb 2018 09:27:01 +0800
 Subject: [PATCH] add targets for test installation
@@ -9,13 +9,12 @@ the target.
 Upstream-Status: Inappropriate [specific to oe setup]
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-
 ---
  tests/check/Makefile.am | 27 ++++++++++++++++++++-------
  1 file changed, 20 insertions(+), 7 deletions(-)
 
 diff --git a/tests/check/Makefile.am b/tests/check/Makefile.am
-index 13b916d..a66786d 100644
+index 4c9d344..51d8f14 100644
 --- a/tests/check/Makefile.am
 +++ b/tests/check/Makefile.am
 @@ -8,11 +8,7 @@ REGISTRY_ENVIRONMENT = \
@@ -31,7 +30,7 @@ index 13b916d..a66786d 100644
  
  plugindir = $(libdir)/gstreamer-@GST_API_VERSION@
  
-@@ -178,6 +174,23 @@ noinst_PROGRAMS =
+@@ -179,6 +175,23 @@ noinst_PROGRAMS =
  
  TESTS = $(check_PROGRAMS)
  
@@ -55,7 +54,7 @@ index 13b916d..a66786d 100644
  noinst_HEADERS = \
  	gst/capslist.h \
  	gst/struct_arm.h \
-@@ -221,9 +234,9 @@ gst_gstprintf_LDADD = \
+@@ -222,9 +235,9 @@ gst_gstprintf_LDADD = \
  	$(LDADD)
  
  elements_fdsrc_CFLAGS=$(GST_OBJ_CFLAGS) $(AM_CFLAGS) \
@@ -67,3 +66,6 @@ index 13b916d..a66786d 100644
  
  libs_controller_LDADD = \
  	$(top_builddir)/libs/gst/controller/libgstcontroller-@GST_API_VERSION@.la \
+-- 
+2.17.1
+
