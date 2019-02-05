@@ -25,11 +25,10 @@ SRC_URI = " \
     file://gtk-doc-tweaks.patch \
     file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
     file://add-a-target-to-compile-tests.patch \
-    file://0002-gstconfig.h.in-initial-RISC-V-support.patch \
     file://run-ptest \
 "
-SRC_URI[md5sum] = "f67fbbc42bd85a0701df119f52fb52bd"
-SRC_URI[sha256sum] = "f94f6696c5f05a3b3a9183e39c5f5c0b779f75a04c0efa497e7920afa985ffc7"
+SRC_URI[md5sum] = "fb28097a907540be40d95ef412315000"
+SRC_URI[sha256sum] = "780ae2347f9780fea264a602a7c04a87a43998188e7bd9c59afb4d7c864f3117"
 
 PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
                    "
