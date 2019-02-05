@@ -7,10 +7,9 @@ SRC_URI = " \
     file://avoid-including-sys-poll.h-directly.patch \
     file://ensure-valid-sentinels-for-gst_structure_get-etc.patch \
     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
-    file://0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch \
 "
-SRC_URI[md5sum] = "5d20a91d027708abcf924f6c1279dd25"
-SRC_URI[sha256sum] = "910b4e0e2e897e8b6d06767af1779d70057c309f67292f485ff988d087aa0de5"
+SRC_URI[md5sum] = "2de0825f304eeddd96eb50b53c89c28a"
+SRC_URI[sha256sum] = "20f86247d9d72e2e67879b479a643113b71f7d895c41940b9b9caf0b14f2f336"
 
 S = "${WORKDIR}/gst-plugins-bad-${PV}"
 

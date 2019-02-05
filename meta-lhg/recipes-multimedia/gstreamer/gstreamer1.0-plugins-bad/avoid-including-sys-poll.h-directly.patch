@@ -1,4 +1,4 @@
-From 72561a0fca562d03567ace7b4cfc94992cd6525c Mon Sep 17 00:00:00 2001
+From d4da36337711121fcd4013cca57ce57ddbd97da4 Mon Sep 17 00:00:00 2001
 From: Andre McCurdy <armccurdy@gmail.com>
 Date: Wed, 3 Feb 2016 18:05:41 -0800
 Subject: [PATCH] avoid including <sys/poll.h> directly
@@ -13,10 +13,10 @@ Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/sys/dvb/gstdvbsrc.c b/sys/dvb/gstdvbsrc.c
-index b93255f..49f145a 100644
+index d9bee26..2edd9fa 100644
 --- a/sys/dvb/gstdvbsrc.c
 +++ b/sys/dvb/gstdvbsrc.c
-@@ -93,7 +93,7 @@
+@@ -97,7 +97,7 @@
  #include <gst/gst.h>
  #include <gst/glib-compat-private.h>
  #include <sys/ioctl.h>
@@ -26,5 +26,5 @@ index b93255f..49f145a 100644
  #include <errno.h>
  #include <stdio.h>
 -- 
-1.9.1
+2.17.1
 
