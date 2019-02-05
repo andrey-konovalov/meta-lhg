@@ -1,4 +1,4 @@
-From f59c5269f92d59a5296cbfeeb682d42095cd88ad Mon Sep 17 00:00:00 2001
+From 567d9cc62c43ca9546eaadb158db216c2ffac1fa Mon Sep 17 00:00:00 2001
 From: Wenzong Fan <wenzong.fan@windriver.com>
 Date: Thu, 18 Sep 2014 02:24:07 -0400
 Subject: [PATCH] gstreamer1.0-plugins-bad: allow to disable libssh2
@@ -15,14 +15,14 @@ Upstream-Status: Pending
 
 Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 ---
- configure.ac |   23 +++++++++++++++++------
+ configure.ac | 23 +++++++++++++++++------
  1 file changed, 17 insertions(+), 6 deletions(-)
 
-Index: gst-plugins-bad-1.12.3/configure.ac
-===================================================================
---- gst-plugins-bad-1.12.3.orig/configure.ac
-+++ gst-plugins-bad-1.12.3/configure.ac
-@@ -2139,6 +2139,15 @@ AG_GST_CHECK_FEATURE(CHROMAPRINT, [chrom
+diff --git a/configure.ac b/configure.ac
+index 276484f..48048d6 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1207,6 +1207,15 @@ AG_GST_CHECK_FEATURE(CHROMAPRINT, [chromaprint], chromaprint, [
  ])
  
  dnl *** Curl ***
@@ -38,7 +38,7 @@ Index: gst-plugins-bad-1.12.3/configure.ac
  translit(dnm, m, l) AM_CONDITIONAL(USE_CURL, true)
  AG_GST_CHECK_FEATURE(CURL, [Curl plugin], curl, [
    PKG_CHECK_MODULES(CURL, libcurl >= 7.35.0, [
-@@ -2161,12 +2170,14 @@ AG_GST_CHECK_FEATURE(CURL, [Curl plugin]
+@@ -1229,12 +1238,14 @@ AG_GST_CHECK_FEATURE(CURL, [Curl plugin], curl, [
    ])
    AC_SUBST(CURL_CFLAGS)
    AC_SUBST(CURL_LIBS)
