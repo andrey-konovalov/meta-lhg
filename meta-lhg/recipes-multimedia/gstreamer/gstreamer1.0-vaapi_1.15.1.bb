@@ -13,8 +13,8 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.x
            file://0001-vaapsink-downgrade-to-marginal.patch \
            "
 
-SRC_URI[md5sum] = "2fae3442f5f23e7354a0c592bc7b9065"
-SRC_URI[sha256sum] = "ce18dbfe961c6a8d31270231686075586bf7a7df62b778c8e7f5ec148251d0a3"
+SRC_URI[md5sum] = "4c6450641800d675252c851c01e75693"
+SRC_URI[sha256sum] = "6c472623f82baccff164516d8ecc9ffdd689e094f68763d652aa5c938d555fa9"
 
 S = "${WORKDIR}/${REALPN}-${PV}"
 DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
