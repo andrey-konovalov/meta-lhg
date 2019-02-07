@@ -3,13 +3,11 @@ require gstreamer1.0-plugins.inc
 SRC_URI = " \
             http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz \
             file://0001-gstrtpmp4gpay-set-dafault-value-for-MPEG4-without-co.patch \
-            file://avoid-including-sys-poll.h-directly.patch \
-            file://ensure-valid-sentinel-for-gst_structure_get.patch \
             file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
             "
 
-SRC_URI[md5sum] = "6e3b247097366cf2639f22abfece7113"
-SRC_URI[sha256sum] = "5f8b553260cb0aac56890053d8511db1528d53cae10f0287cfce2cb2acc70979"
+SRC_URI[md5sum] = "0101e2b18bb1cb71d8aa83aef8363361"
+SRC_URI[sha256sum] = "2b9fb4c5514981e4f75aa1af20a34bac72a447885763d03da3d23c7e329dc695"
 
 S = "${WORKDIR}/gst-plugins-good-${PV}"
 
