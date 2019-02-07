@@ -1,0 +1,220 @@
+From f33edbb43cf328de71cc9fcfb4d6f3c72650e38b Mon Sep 17 00:00:00 2001
+From: Andrey Konovalov <andrey.konovalov@linaro.org>
+Date: Tue, 29 Jan 2019 21:16:35 +0300
+Subject: [PATCH] waylandsink: add basic support for pointer and touch devices
+
+Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
+---
+ ext/wayland/wldisplay.c | 127 ++++++++++++++++++++++++++++++++++++++++
+ ext/wayland/wldisplay.h |   5 ++
+ ext/wayland/wlwindow.c  |   3 +
+ 3 files changed, 135 insertions(+)
+
+diff --git a/ext/wayland/wldisplay.c b/ext/wayland/wldisplay.c
+index cf70361..00a86f9 100644
+--- a/ext/wayland/wldisplay.c
++++ b/ext/wayland/wldisplay.c
+@@ -25,8 +25,10 @@
+ #include "wldisplay.h"
+ #include "wlbuffer.h"
+ #include "wlvideoformat.h"
++#include "wlwindow.h"
+ 
+ #include <errno.h>
++#include <linux/input.h>
+ 
+ GST_DEBUG_CATEGORY_EXTERN (gstwayland_debug);
+ #define GST_CAT_DEFAULT gstwayland_debug
+@@ -81,6 +83,9 @@ gst_wl_display_finalize (GObject * gobject)
+   if (self->viewporter)
+     wp_viewporter_destroy (self->viewporter);
+ 
++  if (self->seat)
++    wl_seat_destroy (self->seat);
++
+   if (self->shm)
+     wl_shm_destroy (self->shm);
+ 
+@@ -186,6 +191,125 @@ gst_wl_display_check_format_for_dmabuf (GstWlDisplay * display,
+   return FALSE;
+ }
+ 
++static void
++pointer_handle_enter (void *data, struct wl_pointer *pointer,
++    uint32_t serial, struct wl_surface *surface,
++    wl_fixed_t sx_w, wl_fixed_t sy_w)
++{
++}
++
++static void
++pointer_handle_leave (void *data, struct wl_pointer *pointer,
++    uint32_t serial, struct wl_surface *surface)
++{
++}
++
++static void
++pointer_handle_motion (void *data, struct wl_pointer *pointer,
++    uint32_t time, wl_fixed_t sx_w, wl_fixed_t sy_w)
++{
++}
++
++static void
++pointer_handle_button (void *data, struct wl_pointer *pointer, uint32_t serial,
++    uint32_t time, uint32_t button, uint32_t state)
++{
++  GstWlDisplay *self = data;
++  GstWlWindow *wl_window = self->toplevel_wl_window;
++
++  if (!wl_window || !gst_wl_window_is_toplevel (wl_window))
++    return;
++
++  if (button == BTN_LEFT && state == WL_POINTER_BUTTON_STATE_PRESSED)
++    wl_shell_surface_move (wl_window->shell_surface, self->seat, serial);
++}
++
++static void
++pointer_handle_axis (void *data, struct wl_pointer *pointer,
++    uint32_t time, uint32_t axis, wl_fixed_t value)
++{
++}
++
++static const struct wl_pointer_listener pointer_listener = {
++  pointer_handle_enter,
++  pointer_handle_leave,
++  pointer_handle_motion,
++  pointer_handle_button,
++  pointer_handle_axis,
++};
++
++static void
++touch_handle_down(void *data, struct wl_touch *wl_touch,
++    uint32_t serial, uint32_t time, struct wl_surface *surface, int32_t id,
++    wl_fixed_t x_w, wl_fixed_t y_w)
++{
++  GstWlDisplay *self = data;
++  GstWlWindow *wl_window = self->toplevel_wl_window;
++
++  if (!wl_window || !gst_wl_window_is_toplevel (wl_window))
++    return;
++
++  wl_shell_surface_move (wl_window->shell_surface, self->seat, serial);
++}
++
++static void
++touch_handle_up(void *data, struct wl_touch *wl_touch, uint32_t serial,
++    uint32_t time, int32_t id)
++{
++}
++
++static void
++touch_handle_motion(void *data, struct wl_touch *wl_touch, uint32_t time,
++    int32_t id, wl_fixed_t x_w, wl_fixed_t y_w)
++{
++}
++
++static void
++touch_handle_frame(void *data, struct wl_touch *wl_touch)
++{
++}
++
++static void
++touch_handle_cancel(void *data, struct wl_touch *wl_touch)
++{
++}
++
++static const struct wl_touch_listener touch_listener = {
++        touch_handle_down,
++        touch_handle_up,
++        touch_handle_motion,
++        touch_handle_frame,
++        touch_handle_cancel,
++};
++
++static void
++seat_handle_capabilities(void *data, struct wl_seat *seat,
++    enum wl_seat_capability caps)
++{
++  GstWlDisplay *self = data;
++
++  if ((caps & WL_SEAT_CAPABILITY_POINTER) && !self->pointer) {
++    self->pointer = wl_seat_get_pointer(seat);
++    wl_pointer_add_listener(self->pointer, &pointer_listener, self);
++  } else if (!(caps & WL_SEAT_CAPABILITY_POINTER) && self->pointer) {
++    wl_pointer_destroy(self->pointer);
++    self->pointer = NULL;
++  }
++
++  if ((caps & WL_SEAT_CAPABILITY_TOUCH) && !self->touch) {
++    self->touch = wl_seat_get_touch(seat);
++    wl_touch_set_user_data(self->touch, self);
++    wl_touch_add_listener(self->touch, &touch_listener, self);
++  } else if (!(caps & WL_SEAT_CAPABILITY_TOUCH) && self->touch) {
++    wl_touch_destroy(self->touch);
++    self->touch = NULL;
++  }
++}
++
++static const struct wl_seat_listener seat_listener = {
++  seat_handle_capabilities,
++};
++
+ static void
+ registry_handle_global (void *data, struct wl_registry *registry,
+     uint32_t id, const char *interface, uint32_t version)
+@@ -206,6 +330,9 @@ registry_handle_global (void *data, struct wl_registry *registry,
+   } else if (g_strcmp0 (interface, "wl_shm") == 0) {
+     self->shm = wl_registry_bind (registry, id, &wl_shm_interface, 1);
+     wl_shm_add_listener (self->shm, &shm_listener, self);
++  } else if (g_strcmp0 (interface, "wl_seat") == 0) {
++    self->seat = wl_registry_bind (registry, id, &wl_seat_interface, 1);
++    wl_seat_add_listener (self->seat, &seat_listener, self);
+   } else if (g_strcmp0 (interface, "wp_viewporter") == 0) {
+     self->viewporter =
+         wl_registry_bind (registry, id, &wp_viewporter_interface, 1);
+diff --git a/ext/wayland/wldisplay.h b/ext/wayland/wldisplay.h
+index 89bedee..7dfa0ec 100644
+--- a/ext/wayland/wldisplay.h
++++ b/ext/wayland/wldisplay.h
+@@ -60,6 +60,9 @@ struct _GstWlDisplay
+   struct zwp_linux_dmabuf_v1 *dmabuf;
+   GArray *shm_formats;
+   GArray *dmabuf_formats;
++  struct wl_seat *seat;
++  struct wl_pointer *pointer;
++  struct wl_touch *touch;
+ 
+   /* private */
+   gboolean own_display;
+@@ -69,6 +72,8 @@ struct _GstWlDisplay
+   GMutex buffers_mutex;
+   GHashTable *buffers;
+   gboolean shutting_down;
++
++  void *toplevel_wl_window;
+ };
+ 
+ struct _GstWlDisplayClass
+diff --git a/ext/wayland/wlwindow.c b/ext/wayland/wlwindow.c
+index e1efb75..3d1ab4f 100644
+--- a/ext/wayland/wlwindow.c
++++ b/ext/wayland/wlwindow.c
+@@ -86,6 +86,8 @@ gst_wl_window_finalize (GObject * gobject)
+ {
+   GstWlWindow *self = GST_WL_WINDOW (gobject);
+ 
++  self->display->toplevel_wl_window = NULL;
++
+   if (self->shell_surface)
+     wl_shell_surface_destroy (self->shell_surface);
+ 
+@@ -188,6 +190,7 @@ gst_wl_window_new_toplevel (GstWlDisplay * display, const GstVideoInfo * info,
+       wl_shell_surface_add_listener (window->shell_surface,
+           &shell_surface_listener, window);
+       gst_wl_window_ensure_fullscreen (window, fullscreen);
++      display->toplevel_wl_window = window;
+     } else {
+       GST_ERROR ("Unable to get wl_shell_surface");
+       g_object_unref (window);
+-- 
+2.17.1
+
