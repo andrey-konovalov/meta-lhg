@@ -9,13 +9,12 @@ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base"
 PNREAL = "gst-rtsp-server"
 
 SRC_URI = "http://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz \
-           file://0001-Don-t-hardcode-libtool-name-when-using-introspection.patch \
            file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
            file://gtk-doc-tweaks.patch \
            "
 
-SRC_URI[md5sum] = "ab0fb5c829266a500e14b46b7bdf06bf"
-SRC_URI[sha256sum] = "3d0ece2afdcd601c175ece24e32a30bc19247b454f4eafd3deeec2533c6884f1"
+SRC_URI[md5sum] = "138596d8186b6cbb6db78c30bf17c10b"
+SRC_URI[sha256sum] = "745fd87903ff72b849dbb82c86353fd4c77cea599e07a2fbed0d901c8f531234"
 
 S = "${WORKDIR}/${PNREAL}-${PV}"
 
