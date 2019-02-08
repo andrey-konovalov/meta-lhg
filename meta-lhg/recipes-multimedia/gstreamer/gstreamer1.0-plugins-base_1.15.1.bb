@@ -12,6 +12,7 @@ SRC_URI = " \
             file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
             file://0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch \
             file://0003-riff-add-missing-include-directories-when-calling-in.patch \
+            file://0004-rtsp-drop-incorrect-reference-to-gstreamer-sdp-in-Ma.patch \
             file://0009-glimagesink-Downrank-to-marginal.patch \
             file://0001-gstreamer-gl.pc.in-don-t-append-GL_CFLAGS-to-CFLAGS.patch \
             file://link-with-libvchostif.patch \
