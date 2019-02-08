@@ -1,0 +1,55 @@
+From 41c575fdc0ce5991f3c138b76c1b28129ec04d7a Mon Sep 17 00:00:00 2001
+From: Andrey Konovalov <andrey.konovalov@linaro.org>
+Date: Fri, 8 Feb 2019 16:25:29 +0300
+Subject: [PATCH] egl: add missing #define's to gsteglimage.c
+
+To fix the compile error use the fix suggested by Yale323 in
+https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/issues/549
+
+Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
+---
+ gst-libs/gst/gl/egl/gsteglimage.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/gst-libs/gst/gl/egl/gsteglimage.c b/gst-libs/gst/gl/egl/gsteglimage.c
+index a74526b..7cc2589 100644
+--- a/gst-libs/gst/gl/egl/gsteglimage.c
++++ b/gst-libs/gst/gl/egl/gsteglimage.c
+@@ -86,6 +86,34 @@
+ #define EGL_DMA_BUF_PLANE0_PITCH_EXT 0x3274
+ #endif
+ 
++#ifndef DRM_FORMAT_MOD_LINEAR
++#define DRM_FORMAT_MOD_LINEAR 0ULL
++#endif
++
++#ifndef EGL_DMA_BUF_PLANE0_MODIFIER_LO_EXT
++#define EGL_DMA_BUF_PLANE0_MODIFIER_LO_EXT 0x3443
++#endif
++
++#ifndef EGL_DMA_BUF_PLANE0_MODIFIER_HI_EXT
++#define EGL_DMA_BUF_PLANE0_MODIFIER_HI_EXT 0x3444
++#endif
++
++#ifndef EGL_DMA_BUF_PLANE1_MODIFIER_LO_EXT
++#define EGL_DMA_BUF_PLANE1_MODIFIER_LO_EXT 0x3445
++#endif
++
++#ifndef EGL_DMA_BUF_PLANE1_MODIFIER_HI_EXT
++#define EGL_DMA_BUF_PLANE1_MODIFIER_HI_EXT 0x3446
++#endif
++
++#ifndef EGL_DMA_BUF_PLANE2_MODIFIER_LO_EXT
++#define EGL_DMA_BUF_PLANE2_MODIFIER_LO_EXT 0x3447
++#endif
++
++#ifndef EGL_DMA_BUF_PLANE2_MODIFIER_HI_EXT
++#define EGL_DMA_BUF_PLANE2_MODIFIER_HI_EXT 0x3448
++#endif
++
+ #if !GST_GL_HAVE_EGLUINT64KHR
+ typedef khronos_uint64_t EGLuint64KHR;
+ #endif
+-- 
+2.17.1
+
