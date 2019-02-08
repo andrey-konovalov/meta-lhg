@@ -16,6 +16,7 @@ SRC_URI = " \
             file://0009-glimagesink-Downrank-to-marginal.patch \
             file://0001-gstreamer-gl.pc.in-don-t-append-GL_CFLAGS-to-CFLAGS.patch \
             file://link-with-libvchostif.patch \
+            file://0001-egl-add-missing-define-s-to-gsteglimage.c.patch \
             "
 SRC_URI[md5sum] = "83b95a7a794f386e65ad08f8c5d1efda"
 SRC_URI[sha256sum] = "6e325958526d6901546da6c1e93a990ede1772b2d6ffde1bf459fca35fea7e63"
