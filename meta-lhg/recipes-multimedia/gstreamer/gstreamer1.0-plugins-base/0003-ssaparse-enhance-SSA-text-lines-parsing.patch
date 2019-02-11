@@ -1,4 +1,4 @@
-From 918c96b24d10f61b7455b4cef3bab490849d0d77 Mon Sep 17 00:00:00 2001
+From 078e35ba6ff69540a070c3c641a4cbd3f079db2a Mon Sep 17 00:00:00 2001
 From: Mingke Wang <mingke.wang@freescale.com>
 Date: Thu, 19 Mar 2015 14:17:10 +0800
 Subject: [PATCH] ssaparse: enhance SSA text lines parsing.
@@ -9,19 +9,27 @@ and there's are maybe multiple Dialog lines in one input buffer.
 Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=747496]
 
 Signed-off-by: Mingke Wang <mingke.wang@freescale.com>
-
 ---
- gst/subparse/gstssaparse.c | 150 ++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 134 insertions(+), 16 deletions(-)
+ gst/subparse/gstssaparse.c | 152 +++++++++++++++++++++++++++++++++----
+ 1 file changed, 136 insertions(+), 16 deletions(-)
  mode change 100644 => 100755 gst/subparse/gstssaparse.c
 
 diff --git a/gst/subparse/gstssaparse.c b/gst/subparse/gstssaparse.c
 old mode 100644
 new mode 100755
-index c849c08..4b9636c
+index c849c08..5517748
 --- a/gst/subparse/gstssaparse.c
 +++ b/gst/subparse/gstssaparse.c
-@@ -262,6 +262,7 @@ gst_ssa_parse_remove_override_codes (GstSsaParse * parse, gchar * txt)
+@@ -24,6 +24,8 @@
+ #include "config.h"
+ #endif
+ 
++#include <ctype.h>		/* isspace() */
++#include <stdio.h>		/* sscanf() */
+ #include <stdlib.h>             /* atoi() */
+ #include <string.h>
+ 
+@@ -262,6 +264,7 @@ gst_ssa_parse_remove_override_codes (GstSsaParse * parse, gchar * txt)
   * gst_ssa_parse_push_line:
   * @parse: caller element
   * @txt: text to push
@@ -29,7 +37,7 @@ index c849c08..4b9636c
   * @start: timestamp for the buffer
   * @duration: duration for the buffer
   *
-@@ -271,27 +272,133 @@ gst_ssa_parse_remove_override_codes (GstSsaParse * parse, gchar * txt)
+@@ -271,27 +274,133 @@ gst_ssa_parse_remove_override_codes (GstSsaParse * parse, gchar * txt)
   * Returns: result of the push of the created buffer
   */
  static GstFlowReturn
@@ -93,7 +101,7 @@ index c849c08..4b9636c
 +    } else {
 +      /* started with "Dialogue:", update timestamp and duration */
 +      /* time format are like Dialog:Mark,0:00:01.02,0:00:03.04,xx,xxx,... */
-+      guint hour, min, sec, msec, len;
++      guint hour, min, sec, msec;
 +      GstClockTime tmp;
 +      gchar t_str[12] = {0};
 +
@@ -174,7 +182,7 @@ index c849c08..4b9636c
    GST_LOG_OBJECT (parse, "Text : %s", t);
  
    if (gst_ssa_parse_remove_override_codes (parse, t)) {
-@@ -309,13 +416,22 @@ gst_ssa_parse_push_line (GstSsaParse * parse, gchar * txt,
+@@ -309,13 +418,22 @@ gst_ssa_parse_push_line (GstSsaParse * parse, gchar * txt,
    gst_buffer_fill (buf, 0, escaped, len + 1);
    gst_buffer_set_size (buf, len);
    g_free (escaped);
@@ -201,7 +209,7 @@ index c849c08..4b9636c
  
    ret = gst_pad_push (parse->srcpad, buf);
  
-@@ -335,6 +451,7 @@ gst_ssa_parse_chain (GstPad * sinkpad, GstObject * parent, GstBuffer * buf)
+@@ -335,6 +453,7 @@ gst_ssa_parse_chain (GstPad * sinkpad, GstObject * parent, GstBuffer * buf)
    GstClockTime ts;
    gchar *txt;
    GstMapInfo map;
@@ -209,7 +217,7 @@ index c849c08..4b9636c
  
    if (G_UNLIKELY (!parse->framed))
      goto not_framed;
-@@ -352,13 +469,14 @@ gst_ssa_parse_chain (GstPad * sinkpad, GstObject * parent, GstBuffer * buf)
+@@ -352,13 +471,14 @@ gst_ssa_parse_chain (GstPad * sinkpad, GstObject * parent, GstBuffer * buf)
    /* make double-sure it's 0-terminated and all */
    gst_buffer_map (buf, &map, GST_MAP_READ);
    txt = g_strndup ((gchar *) map.data, map.size);
