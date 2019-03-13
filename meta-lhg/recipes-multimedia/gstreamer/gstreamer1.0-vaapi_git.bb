@@ -8,15 +8,19 @@ REALPN = "gstreamer-vaapi"
 LICENSE = "LGPLv2.1+"
 LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
 
-SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz \
+SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gstreamer-vaapi;protocol=https;branch=master \
            file://0001-gst-vaapi-Makefile.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch \
            file://0001-vaapsink-downgrade-to-marginal.patch \
            "
 
-SRC_URI[md5sum] = "4c6450641800d675252c851c01e75693"
-SRC_URI[sha256sum] = "6c472623f82baccff164516d8ecc9ffdd689e094f68763d652aa5c938d555fa9"
+#SRC_URI[md5sum] = "4c6450641800d675252c851c01e75693"
+#SRC_URI[sha256sum] = "6c472623f82baccff164516d8ecc9ffdd689e094f68763d652aa5c938d555fa9"
 
-S = "${WORKDIR}/${REALPN}-${PV}"
+SRCREV = "e20e48f966f25dc49cc19cc7a2034f3f11c49c43"
+PV = "1.15.2+git${SRCPV}"
+UPSTREAM_CHECK_COMMITS = "1"
+
+S = "${WORKDIR}/git"
 DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
 
 inherit autotools pkgconfig gtk-doc distro_features_check upstream-version-is-even

@@ -7,12 +7,19 @@ LICENSE_FLAGS = "commercial"
 LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
                     file://omx/gstomx.h;beginline=1;endline=21;md5=5c8e1fca32704488e76d2ba9ddfa935f"
 
-SRC_URI = "http://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
+#SRC_URI = "http://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
+SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gst-omx;protocol=https;branch=master;name=gst-omx \
+           git://gitlab.freedesktop.org/gstreamer/common;protocol=https;branch=master;destsuffix=git/common;name=common \"
 
-SRC_URI[md5sum] = "0655aec006f713279742df26a8c640bd"
-SRC_URI[sha256sum] = "b4313731939b23359201177770c694cfb64556583453d7bf9f28453aa95c2d6f"
+#SRC_URI[md5sum] = "0655aec006f713279742df26a8c640bd"
+#SRC_URI[sha256sum] = "b4313731939b23359201177770c694cfb64556583453d7bf9f28453aa95c2d6f"
 
-S = "${WORKDIR}/gst-omx-${PV}"
+SRCREV_gst-omx = "fbd6efcdeec7112b56ef4edfc1f4250c0ca978a3"
+SRCREV_common = "9b2a1d676f77f39d25d6674c43b858293b4b0a19"
+SRCREV_FORMAT = "gst-omx"
+PV = "1.15.2+git${SRCPV}"
+
+S = "${WORKDIR}/git"
 
 DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
 
@@ -44,6 +51,12 @@ delete_pkg_m4_file() {
 	rm -f "${S}/common/m4/gtk-doc.m4"
 }
 do_configure[prefuncs] += "delete_pkg_m4_file"
+
+do_configure_prepend() {
+	cd ${S}
+	./autogen.sh --noconfigure
+	cd ${B}
+}
 
 set_omx_core_name() {
 	sed -i -e "s;^core-name=.*;core-name=${GSTREAMER_1_0_OMX_CORE_NAME};" "${D}${sysconfdir}/xdg/gstomx.conf"

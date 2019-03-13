@@ -7,13 +7,22 @@ LICENSE = "GPLv2+ & LGPLv2.1+ & LGPLv2+"
 LICENSE_FLAGS = "commercial"
 
 SRC_URI = " \
-            http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
+            git://gitlab.freedesktop.org/gstreamer/gst-plugins-ugly;protocol=https;branch=master;name=base \
+            git://gitlab.freedesktop.org/gstreamer/common;protocol=https;branch=master;destsuffix=git/common;name=common \
             file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
             "
-SRC_URI[md5sum] = "142530d07aae02f326c1a0af85fe8941"
-SRC_URI[sha256sum] = "178fa922cf54a1eb1c563e1a1b272c9b5dbf50fb331830170ddf2aeec1e8e99e"
+#SRC_URI[md5sum] = "142530d07aae02f326c1a0af85fe8941"
+#SRC_URI[sha256sum] = "178fa922cf54a1eb1c563e1a1b272c9b5dbf50fb331830170ddf2aeec1e8e99e"
 
-S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+SRCREV_base = "ab8cc537aad620f518d22acbdce185a82258c93e"
+SRCREV_common = "9b2a1d676f77f39d25d6674c43b858293b4b0a19"
+SRCREV_FORMAT = "base"
+
+PV = "1.15.2+git${SRCPV}"
+
+UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+
+S = "${WORKDIR}/git"
 
 DEPENDS += "gstreamer1.0-plugins-base libid3tag"
 
@@ -38,3 +47,7 @@ EXTRA_OECONF += " \
 
 FILES_${PN}-amrnb += "${datadir}/gstreamer-1.0/presets/GstAmrnbEnc.prs"
 FILES_${PN}-x264 += "${datadir}/gstreamer-1.0/presets/GstX264Enc.prs"
+
+do_configure_prepend() {
+	${S}/autogen.sh --noconfigure
+}

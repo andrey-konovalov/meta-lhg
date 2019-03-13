@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
                     file://common/coverage/coverage-report.pl;beginline=2;endline=17;md5=a4e1830fce078028c8f0974161272607"
 
 SRC_URI = " \
-            http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-${PV}.tar.xz \
+            git://gitlab.freedesktop.org/gstreamer/gst-plugins-base;protocol=https;branch=master;name=base \
+            git://gitlab.freedesktop.org/gstreamer/common;protocol=https;branch=master;destsuffix=git/common;name=common \
             file://get-caps-from-src-pad-when-query-caps.patch \
             file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch \
             file://make-gio_unix_2_0-dependency-configurable.patch \
@@ -18,10 +19,18 @@ SRC_URI = " \
             file://link-with-libvchostif.patch \
             file://0001-egl-add-missing-define-s-to-gsteglimage.c.patch \
             "
-SRC_URI[md5sum] = "83b95a7a794f386e65ad08f8c5d1efda"
-SRC_URI[sha256sum] = "6e325958526d6901546da6c1e93a990ede1772b2d6ffde1bf459fca35fea7e63"
+#SRC_URI[md5sum] = "83b95a7a794f386e65ad08f8c5d1efda"
+#SRC_URI[sha256sum] = "6e325958526d6901546da6c1e93a990ede1772b2d6ffde1bf459fca35fea7e63"
 
-S = "${WORKDIR}/gst-plugins-base-${PV}"
+SRCREV_base = "045137d34065f5969d5edad4724152ad7a569b3e"
+SRCREV_common = "9b2a1d676f77f39d25d6674c43b858293b4b0a19"
+SRCREV_FORMAT = "base"
+
+PV = "1.15.2+git${SRCPV}"
+
+UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+
+S = "${WORKDIR}/git"
 
 DEPENDS += "iso-codes util-linux"
 
@@ -67,6 +76,10 @@ PACKAGECONFIG[zlib]         = "--enable-zlib,--disable-zlib,zlib"
 
 FILES_${PN}-dev += "${libdir}/gstreamer-${LIBV}/include/gst/gl/gstglconfig.h"
 FILES_${MLPREFIX}libgsttag-1.0 += "${datadir}/gst-plugins-base/1.0/license-translations.dict"
+
+do_configure_prepend() {
+	${S}/autogen.sh --noconfigure
+}
 
 do_compile_prepend() {
         export GIR_EXTRA_LIBS_PATH="${B}/gst-libs/gst/tag/.libs:${B}/gst-libs/gst/video/.libs:${B}/gst-libs/gst/audio/.libs:${B}/gst-libs/gst/rtp/.libs:${B}/gst-libs/gst/allocators/.libs"

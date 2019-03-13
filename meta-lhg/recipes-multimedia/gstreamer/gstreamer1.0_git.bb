@@ -17,18 +17,26 @@ acpaths = "-I ${S}/common/m4 -I ${S}/m4"
 LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
                     file://gst/gst.h;beginline=1;endline=21;md5=e059138481205ee2c6fc1c079c016d0d"
 
-S = "${WORKDIR}/gstreamer-${PV}"
+UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+
+SRCREV_base = "ec0e4ae0c31b365fd0d0d3d753a10bb5c98bb394"
+SRCREV_common = "9b2a1d676f77f39d25d6674c43b858293b4b0a19"
+SRCREV_FORMAT = "base"
+PV = "1.15.2+git${SRCPV}"
+
+S = "${WORKDIR}/git"
 
 SRC_URI = " \
-    http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
+    git://gitlab.freedesktop.org/gstreamer/gstreamer;protocol=https;branch=master;name=base \
+    git://gitlab.freedesktop.org/gstreamer/common;protocol=https;branch=master;destsuffix=git/common;name=common \
     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
     file://gtk-doc-tweaks.patch \
     file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
     file://add-a-target-to-compile-tests.patch \
     file://run-ptest \
 "
-SRC_URI[md5sum] = "fb28097a907540be40d95ef412315000"
-SRC_URI[sha256sum] = "780ae2347f9780fea264a602a7c04a87a43998188e7bd9c59afb4d7c864f3117"
+#SRC_URI[md5sum] = "fb28097a907540be40d95ef412315000"
+#SRC_URI[sha256sum] = "780ae2347f9780fea264a602a7c04a87a43998188e7bd9c59afb4d7c864f3117"
 
 PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
                    "
@@ -64,6 +72,10 @@ delete_pkg_m4_file() {
 }
 
 do_configure[prefuncs] += "delete_pkg_m4_file"
+
+do_configure_prepend() {
+	${S}/autogen.sh --noconfigure
+}
 
 do_compile_prepend() {
         export GIR_EXTRA_LIBS_PATH="${B}/gst/.libs:${B}/libs/gst/base/.libs"

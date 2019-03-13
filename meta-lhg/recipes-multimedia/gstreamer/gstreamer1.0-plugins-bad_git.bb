@@ -1,17 +1,25 @@
 require gstreamer1.0-plugins.inc
 
-SRC_URI = " \
-    http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-${PV}.tar.xz \
+SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gst-plugins-bad;protocol=https;branch=master;name=base \
+    git://gitlab.freedesktop.org/gstreamer/common;protocol=https;branch=master;destsuffix=git/common;name=common \
     file://configure-allow-to-disable-libssh2.patch \
     file://fix-maybe-uninitialized-warnings-when-compiling-with-Os.patch \
     file://avoid-including-sys-poll.h-directly.patch \
     file://ensure-valid-sentinels-for-gst_structure_get-etc.patch \
     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
 "
-SRC_URI[md5sum] = "2de0825f304eeddd96eb50b53c89c28a"
-SRC_URI[sha256sum] = "20f86247d9d72e2e67879b479a643113b71f7d895c41940b9b9caf0b14f2f336"
+#SRC_URI[md5sum] = "2de0825f304eeddd96eb50b53c89c28a"
+#SRC_URI[sha256sum] = "20f86247d9d72e2e67879b479a643113b71f7d895c41940b9b9caf0b14f2f336"
 
-S = "${WORKDIR}/gst-plugins-bad-${PV}"
+UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+
+SRCREV_base = "4430fa0e3ea797cc18a01a311bd1c6ae03ce9ca5"
+SRCREV_common = "9b2a1d676f77f39d25d6674c43b858293b4b0a19"
+SRCREV_FORMAT = "base"
+
+PV = "1.15.2+git${SRCPV}"
+
+S = "${WORKDIR}/git"
 
 LICENSE = "GPLv2+ & LGPLv2+ & LGPLv2.1+"
 LIC_FILES_CHKSUM = "file://COPYING;md5=73a5855a8119deb017f5f13cf327095d \
@@ -145,3 +153,7 @@ ARM_INSTRUCTION_SET_armv5 = "arm"
 FILES_${PN}-freeverb += "${datadir}/gstreamer-${LIBV}/presets/GstFreeverb.prs"
 FILES_${PN}-opencv += "${datadir}/gst-plugins-bad/${LIBV}/opencv*"
 FILES_${PN}-voamrwbenc += "${datadir}/gstreamer-${LIBV}/presets/GstVoAmrwbEnc.prs"
+
+do_configure_prepend() {
+	${S}/autogen.sh --noconfigure
+}

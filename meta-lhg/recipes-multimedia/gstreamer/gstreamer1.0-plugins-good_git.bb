@@ -1,15 +1,24 @@
 require gstreamer1.0-plugins.inc
 
 SRC_URI = " \
-            http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz \
+            git://gitlab.freedesktop.org/gstreamer/gst-plugins-good;protocol=https;branch=master;name=base \
+            git://gitlab.freedesktop.org/gstreamer/common;protocol=https;branch=master;destsuffix=git/common;name=common \
             file://0001-gstrtpmp4gpay-set-dafault-value-for-MPEG4-without-co.patch \
             file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
             "
 
-SRC_URI[md5sum] = "0101e2b18bb1cb71d8aa83aef8363361"
-SRC_URI[sha256sum] = "2b9fb4c5514981e4f75aa1af20a34bac72a447885763d03da3d23c7e329dc695"
+#SRC_URI[md5sum] = "0101e2b18bb1cb71d8aa83aef8363361"
+#SRC_URI[sha256sum] = "2b9fb4c5514981e4f75aa1af20a34bac72a447885763d03da3d23c7e329dc695"
 
-S = "${WORKDIR}/gst-plugins-good-${PV}"
+SRCREV_base = "8b068fb78b93930ac3d35871abfd57a65ccd81f8"
+SRCREV_common = "9b2a1d676f77f39d25d6674c43b858293b4b0a19"
+SRCREV_FORMAT = "base"
+
+PV = "1.15.2+git${SRCPV}"
+
+UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+
+S = "${WORKDIR}/git"
 
 LICENSE = "GPLv2+ & LGPLv2.1+"
 LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
@@ -75,3 +84,7 @@ EXTRA_OECONF += " \
 "
 
 FILES_${PN}-equalizer += "${datadir}/gstreamer-1.0/presets/*.prs"
+
+do_configure_prepend() {
+	${S}/autogen.sh --noconfigure
+}

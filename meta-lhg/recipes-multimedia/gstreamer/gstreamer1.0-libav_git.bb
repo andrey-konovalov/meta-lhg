@@ -12,17 +12,26 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
                     file://gst-libs/ext/libav/COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
                     file://gst-libs/ext/libav/COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
 
-SRC_URI = "http://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz \
+SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gst-libav;protocol=https;branch=master;name=base \
+           git://gitlab.freedesktop.org/gstreamer/common;protocol=https;branch=master;destsuffix=git/common;name=common \
+           git://git.videolan.org/git/ffmpeg.git;protocol=https;branch=release/4.1;destsuffix=git/gst-libs/ext/libav;name=ffmpeg \
            file://0001-Disable-yasm-for-libav-when-disable-yasm.patch \
            file://workaround-to-build-gst-libav-for-i586-with-gcc.patch \
            file://mips64_cpu_detection.patch \
            file://0001-configure-check-for-armv7ve-variant.patch \
            file://0001-fix-host-contamination.patch \
            "
-SRC_URI[md5sum] = "f8aaeed8baeae147ea4178f7611db193"
-SRC_URI[sha256sum] = "93eacda6327ee4fcbb3254e68757d555196d1e2c689e1b79a46e28f33ef20543"
+#SRC_URI[md5sum] = "f8aaeed8baeae147ea4178f7611db193"
+#SRC_URI[sha256sum] = "93eacda6327ee4fcbb3254e68757d555196d1e2c689e1b79a46e28f33ef20543"
 
-S = "${WORKDIR}/gst-libav-${PV}"
+SRCREV_base = "ef8a1bdd90daa04e9022561a8c338f1a23ee4bdc"
+SRCREV_common = "9b2a1d676f77f39d25d6674c43b858293b4b0a19"
+SRCREV_ffmpeg = "74700e50bf7444930bfc12935bd3e17cd5f766c1"
+SRCREV_FORMAT = "base"
+PV = "1.15.2+git${SRCPV}"
+UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+
+S = "${WORKDIR}/git"
 
 DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base zlib bzip2 xz"
 
@@ -68,3 +77,7 @@ ARM_INSTRUCTION_SET_armv5 = "arm"
 
 # ffmpeg/libav disables PIC on some platforms (e.g. x86-32)
 INSANE_SKIP_${PN} = "textrel"
+
+do_configure_prepend() {
+	${S}/autogen.sh --noconfigure
+}
