@@ -1,0 +1,31 @@
+From 8145e2487f68f5612d56775fb78ff71a5f72df2c Mon Sep 17 00:00:00 2001
+From: Andrey Konovalov <andrey.konovalov@linaro.org>
+Date: Wed, 13 Mar 2019 20:22:13 +0300
+Subject: [PATCH] gstdiscoverer.c: fix compilation warning due to format
+ mismatch
+
+Fixes:
+"error: format '%u' expects argument of type 'unsigned int', but
+argument 3 has type '__off64_t' {aka 'long long int'} [-Werror=format=]"
+
+Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
+---
+ gst-libs/gst/pbutils/gstdiscoverer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gst-libs/gst/pbutils/gstdiscoverer.c b/gst-libs/gst/pbutils/gstdiscoverer.c
+index 1bf5b8d6c..ab3bfec99 100644
+--- a/gst-libs/gst/pbutils/gstdiscoverer.c
++++ b/gst-libs/gst/pbutils/gstdiscoverer.c
+@@ -1798,7 +1798,7 @@ _serialized_info_get_path (GstDiscoverer * dc, gchar * uri)
+   }
+ 
+   tmp = g_strdup_printf ("%s-%" G_GSIZE_FORMAT "-%" G_GINT64_FORMAT,
+-      location, file_status.st_size, file_status.st_mtime);
++      location, (gsize)file_status.st_size, file_status.st_mtime);
+   cs = g_checksum_new (G_CHECKSUM_SHA1);
+   g_checksum_update (cs, (const guchar *) tmp, strlen (tmp));
+   checksum = g_checksum_get_string (cs);
+-- 
+2.17.1
+
