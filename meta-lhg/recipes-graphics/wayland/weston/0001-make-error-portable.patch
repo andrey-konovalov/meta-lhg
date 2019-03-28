@@ -1,4 +1,4 @@
-From ad1d2161c811cff25d1684c33611f300adb753bc Mon Sep 17 00:00:00 2001
+From b1dfaef29d19f8e23ee07a1771e9372ee3021de5 Mon Sep 17 00:00:00 2001
 From: Khem Raj <raj.khem@gmail.com>
 Date: Fri, 29 May 2015 20:56:00 -0700
 Subject: [PATCH] make error() portable
@@ -9,7 +9,6 @@ kind of systemsi e.g. musl.
 Upstream-Status: Submitted
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
-
 ---
  configure.ac              |  2 ++
  libweston/weston-error.h  | 20 ++++++++++++++++++++
@@ -18,12 +17,12 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  create mode 100644 libweston/weston-error.h
 
 diff --git a/configure.ac b/configure.ac
-index 7aebbdb..dc9c802 100644
+index a330a51..dcf5025 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -109,6 +109,8 @@ AC_CHECK_DECL(CLOCK_MONOTONIC,[],
+@@ -126,6 +126,8 @@ AC_CHECK_DECL(CLOCK_MONOTONIC,[],
+ 	      [AC_MSG_ERROR("CLOCK_MONOTONIC is needed to compile weston")],
  	      [[#include <time.h>]])
- AC_CHECK_HEADERS([execinfo.h])
  
 +AC_CHECK_HEADERS([error.h])
 +
@@ -57,7 +56,7 @@ index 0000000..2089d02
 +#endif
 +
 diff --git a/libweston/weston-launch.c b/libweston/weston-launch.c
-index 1adcf21..166bf3b 100644
+index bf73e0d..9064439 100644
 --- a/libweston/weston-launch.c
 +++ b/libweston/weston-launch.c
 @@ -33,7 +33,6 @@
@@ -76,3 +75,6 @@ index 1adcf21..166bf3b 100644
  
  #define DRM_MAJOR 226
  
+-- 
+2.7.4
+

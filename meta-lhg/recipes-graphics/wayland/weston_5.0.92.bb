@@ -12,8 +12,8 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
            file://xwayland.weston-start \
            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
 "
-SRC_URI[md5sum] = "752a04ce3c65af4884cfac4e57231bdb"
-SRC_URI[sha256sum] = "15a23423bcfa45e31e1dedc0cd524ba71e2930df174fde9c99b71a537c4e4caf"
+SRC_URI[md5sum] = "1409f3b4fa87cf72ec5dc0e1e2c6957c"
+SRC_URI[sha256sum] = "89b804a10f331c2933a8b5c3eaf1427cc94ca7743521836b2f5046e46c7fe1d8"
 
 UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
 
@@ -24,9 +24,11 @@ REQUIRED_DISTRO_FEATURES = "opengl"
 DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
 DEPENDS += "wayland wayland-protocols libinput virtual/egl pango wayland-native"
 
-WESTON_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
+#WESTON_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
+WESTON_MAJOR_VERSION = "6"
 
-EXTRA_OECONF = "--enable-setuid-install \
+EXTRA_OECONF = "--enable-autotools \
+                --enable-setuid-install \
                 --disable-rdp-compositor \
                 "
 PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
