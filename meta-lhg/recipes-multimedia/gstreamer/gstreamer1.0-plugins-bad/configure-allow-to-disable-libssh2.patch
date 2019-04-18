@@ -22,7 +22,7 @@ diff --git a/configure.ac b/configure.ac
 index 276484f..48048d6 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1207,6 +1207,15 @@ AG_GST_CHECK_FEATURE(CHROMAPRINT, [chromaprint], chromaprint, [
+@@ -1202,6 +1202,15 @@ AG_GST_CHECK_FEATURE(CHROMAPRINT, [chromaprint], chromaprint, [
  ])
  
  dnl *** Curl ***
@@ -38,7 +38,7 @@ index 276484f..48048d6 100644
  translit(dnm, m, l) AM_CONDITIONAL(USE_CURL, true)
  AG_GST_CHECK_FEATURE(CURL, [Curl plugin], curl, [
    PKG_CHECK_MODULES(CURL, libcurl >= 7.35.0, [
-@@ -1229,12 +1238,14 @@ AG_GST_CHECK_FEATURE(CURL, [Curl plugin], curl, [
+@@ -1224,12 +1233,14 @@ AG_GST_CHECK_FEATURE(CURL, [Curl plugin], curl, [
    ])
    AC_SUBST(CURL_CFLAGS)
    AC_SUBST(CURL_LIBS)

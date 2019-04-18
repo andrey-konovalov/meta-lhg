@@ -19,10 +19,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
 
 UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
 
-SRCREV_base = "ec0e4ae0c31b365fd0d0d3d753a10bb5c98bb394"
-SRCREV_common = "9b2a1d676f77f39d25d6674c43b858293b4b0a19"
+SRCREV_base = "cd7075dcc25fed4bff23110c1d9b5869dec63686"
+SRCREV_common = "32edeb4f0e665ccad767ab6a104e013522ce7e6f"
 SRCREV_FORMAT = "base"
-PV = "1.15.2+git${SRCPV}"
+PV = "1.15.90+git${SRCPV}"
 
 S = "${WORKDIR}/git"
 

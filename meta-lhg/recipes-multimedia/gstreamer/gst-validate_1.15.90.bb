@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
 SRC_URI = "https://gstreamer.freedesktop.org/src/${BPN}/${BP}.tar.xz \
            file://0001-connect-has-a-different-signature-on-musl.patch \
            "
-SRC_URI[md5sum] = "0587af7a67674ef352a88b2f1b94a4ae"
-SRC_URI[sha256sum] = "649749d8a07bbcdb4a1abd4892adb7c54a31dca00a15647bc056bba7e8e2b0a4"
+SRC_URI[md5sum] = "3d6c3a5627d1d7fdaa41bc908cbd16be"
+SRC_URI[sha256sum] = "175553ff1205ea3c1a6af34b599501182fc2c2a83b4350e382e34c72ea4ded91"
 
 DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
 RRECOMMENDS_${PN} = "git"

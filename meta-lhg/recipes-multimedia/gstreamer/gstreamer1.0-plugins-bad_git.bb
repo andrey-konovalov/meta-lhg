@@ -13,11 +13,11 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gst-plugins-bad;protocol=https
 
 UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
 
-SRCREV_base = "4430fa0e3ea797cc18a01a311bd1c6ae03ce9ca5"
-SRCREV_common = "9b2a1d676f77f39d25d6674c43b858293b4b0a19"
+SRCREV_base = "9f1242ae026117930aeb45f0f89dca59176c44ef"
+SRCREV_common = "32edeb4f0e665ccad767ab6a104e013522ce7e6f"
 SRCREV_FORMAT = "base"
 
-PV = "1.15.2+git${SRCPV}"
+PV = "1.15.90+git${SRCPV}"
 
 S = "${WORKDIR}/git"
 

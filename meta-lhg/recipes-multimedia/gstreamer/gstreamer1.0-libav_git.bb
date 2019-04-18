@@ -24,11 +24,11 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gst-libav;protocol=https;branc
 #SRC_URI[md5sum] = "f8aaeed8baeae147ea4178f7611db193"
 #SRC_URI[sha256sum] = "93eacda6327ee4fcbb3254e68757d555196d1e2c689e1b79a46e28f33ef20543"
 
-SRCREV_base = "ef8a1bdd90daa04e9022561a8c338f1a23ee4bdc"
-SRCREV_common = "9b2a1d676f77f39d25d6674c43b858293b4b0a19"
+SRCREV_base = "b83229f73b61dd32bbddf32e88bf7a9f52f24ffa"
+SRCREV_common = "32edeb4f0e665ccad767ab6a104e013522ce7e6f"
 SRCREV_ffmpeg = "74700e50bf7444930bfc12935bd3e17cd5f766c1"
 SRCREV_FORMAT = "base"
-PV = "1.15.2+git${SRCPV}"
+PV = "1.15.90+git${SRCPV}"
 UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
 
 S = "${WORKDIR}/git"

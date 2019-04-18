@@ -17,17 +17,15 @@ SRC_URI = " \
             file://0009-glimagesink-Downrank-to-marginal.patch \
             file://0001-gstreamer-gl.pc.in-don-t-append-GL_CFLAGS-to-CFLAGS.patch \
             file://link-with-libvchostif.patch \
-            file://0001-egl-add-missing-define-s-to-gsteglimage.c.patch \
-            file://0001-gstdiscoverer.c-fix-compilation-warning-due-to-forma.patch \
             "
 #SRC_URI[md5sum] = "83b95a7a794f386e65ad08f8c5d1efda"
 #SRC_URI[sha256sum] = "6e325958526d6901546da6c1e93a990ede1772b2d6ffde1bf459fca35fea7e63"
 
-SRCREV_base = "045137d34065f5969d5edad4724152ad7a569b3e"
-SRCREV_common = "9b2a1d676f77f39d25d6674c43b858293b4b0a19"
+SRCREV_base = "977aa19b8a975347d7613ea94fdbdb77a32469f6"
+SRCREV_common = "32edeb4f0e665ccad767ab6a104e013522ce7e6f"
 SRCREV_FORMAT = "base"
 
-PV = "1.15.2+git${SRCPV}"
+PV = "1.15.90+git${SRCPV}"
 
 UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
 

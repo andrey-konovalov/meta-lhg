@@ -22,7 +22,7 @@ diff --git a/gst-libs/ext/libav/configure b/gst-libs/ext/libav/configure
 index 5c2c994..54523ea 100755
 --- a/gst-libs/ext/libav/configure
 +++ b/gst-libs/ext/libav/configure
-@@ -4744,6 +4744,7 @@ elif enabled arm; then
+@@ -4745,6 +4745,7 @@ elif enabled arm; then
          elif check_arm_arch 6KZ;      then echo armv6zk
          elif check_arm_arch 6ZK;      then echo armv6zk
          elif check_arm_arch 6T2;      then echo armv6t2
