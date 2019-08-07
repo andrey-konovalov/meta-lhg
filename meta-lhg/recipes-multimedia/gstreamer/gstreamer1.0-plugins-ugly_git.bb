@@ -14,11 +14,11 @@ SRC_URI = " \
 #SRC_URI[md5sum] = "142530d07aae02f326c1a0af85fe8941"
 #SRC_URI[sha256sum] = "178fa922cf54a1eb1c563e1a1b272c9b5dbf50fb331830170ddf2aeec1e8e99e"
 
-SRCREV_base = "646dc1ef9b92841e235d10a8262882b6e7d97422"
-SRCREV_common = "32edeb4f0e665ccad767ab6a104e013522ce7e6f"
+SRCREV_base = "f31f085e7bec95422f95056e2391fe1b7c26ee32"
+SRCREV_common = "f32031c0c1eefb227ab5ce77722a23bf1fe59891"
 SRCREV_FORMAT = "base"
 
-PV = "1.16.0+git${SRCPV}"
+PV = "1.17.0.1+git${SRCPV}"
 
 UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
 

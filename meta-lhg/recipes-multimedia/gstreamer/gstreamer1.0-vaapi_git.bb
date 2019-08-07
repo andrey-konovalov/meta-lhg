@@ -16,8 +16,8 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gstreamer-vaapi;protocol=https
 #SRC_URI[md5sum] = "4c6450641800d675252c851c01e75693"
 #SRC_URI[sha256sum] = "6c472623f82baccff164516d8ecc9ffdd689e094f68763d652aa5c938d555fa9"
 
-SRCREV = "2c3480796a6673c638f5b12c7bdf5c0f191120fd"
-PV = "1.16.0+git${SRCPV}"
+SRCREV = "14ea838512dbc15337c5954b99c40b5baf3a4c57"
+PV = "1.17.0.1+git${SRCPV}"
 UPSTREAM_CHECK_COMMITS = "1"
 
 S = "${WORKDIR}/git"

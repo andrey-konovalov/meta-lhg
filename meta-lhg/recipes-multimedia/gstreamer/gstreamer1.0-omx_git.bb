@@ -14,10 +14,10 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gst-omx;protocol=https;branch=
 #SRC_URI[md5sum] = "0655aec006f713279742df26a8c640bd"
 #SRC_URI[sha256sum] = "b4313731939b23359201177770c694cfb64556583453d7bf9f28453aa95c2d6f"
 
-SRCREV_gst-omx = "efb55bfa9fac024efea491895f6bf486a712be7e"
-SRCREV_common = "32edeb4f0e665ccad767ab6a104e013522ce7e6f"
+SRCREV_gst-omx = "a160160419b852b76bfae9dbfe0dfed27753012a"
+SRCREV_common = "f32031c0c1eefb227ab5ce77722a23bf1fe59891"
 SRCREV_FORMAT = "gst-omx"
-PV = "1.16.0+git${SRCPV}"
+PV = "1.17.0.1+git${SRCPV}"
 
 S = "${WORKDIR}/git"
 
