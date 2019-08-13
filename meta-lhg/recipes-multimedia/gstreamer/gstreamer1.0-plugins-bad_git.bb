@@ -25,9 +25,9 @@ LICENSE = "GPLv2+ & LGPLv2+ & LGPLv2.1+"
 LIC_FILES_CHKSUM = "file://COPYING;md5=73a5855a8119deb017f5f13cf327095d \
                     file://COPYING.LIB;md5=21682e4e8fea52413fd26c60acb907e5 "
 
-DEPENDS += "gstreamer1.0-plugins-base jpeg"
+DEPENDS += "gstreamer1.0-plugins-base"
 
-inherit gettext bluetooth
+inherit gettext gobject-introspection
 
 PACKAGECONFIG ??= " \
     ${GSTREAMER_ORC} \
@@ -43,7 +43,7 @@ PACKAGECONFIG ??= " \
 # not add GL dependencies here, since these are taken care of in -base.
 
 PACKAGECONFIG[assrender]       = "--enable-assrender,--disable-assrender,libass"
-PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,${BLUEZ}"
+PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,bluez5"
 PACKAGECONFIG[bz2]             = "--enable-bz2,--disable-bz2,bzip2"
 PACKAGECONFIG[curl]            = "--enable-curl,--disable-curl,curl"
 PACKAGECONFIG[dash]            = "--enable-dash,--disable-dash,libxml2"
@@ -76,6 +76,7 @@ PACKAGECONFIG[resindvd]        = "--enable-resindvd,--disable-resindvd,libdvdrea
 PACKAGECONFIG[rsvg]            = "--enable-rsvg,--disable-rsvg,librsvg"
 PACKAGECONFIG[rtmp]            = "--enable-rtmp,--disable-rtmp,rtmpdump"
 PACKAGECONFIG[sbc]             = "--enable-sbc,--disable-sbc,sbc"
+PACKAGECONFIG[sctp]            = "--enable-sctp,--disable-sctp,usrsctp"
 PACKAGECONFIG[smoothstreaming] = "--enable-smoothstreaming,--disable-smoothstreaming,libxml2"
 PACKAGECONFIG[sndfile]         = "--enable-sndfile,--disable-sndfile,libsndfile1"
 PACKAGECONFIG[srtp]            = "--enable-srtp,--disable-srtp,libsrtp"
@@ -84,17 +85,17 @@ PACKAGECONFIG[ttml]            = "--enable-ttml,--disable-ttml,libxml2 pango cai
 PACKAGECONFIG[uvch264]         = "--enable-uvch264,--disable-uvch264,libusb1 libgudev"
 PACKAGECONFIG[voaacenc]        = "--enable-voaacenc,--disable-voaacenc,vo-aacenc"
 PACKAGECONFIG[voamrwbenc]      = "--enable-voamrwbenc,--disable-voamrwbenc,vo-amrwbenc"
-PACKAGECONFIG[vulkan]          = "--enable-vulkan,--disable-vulkan,vulkan"
+PACKAGECONFIG[vulkan]          = "--enable-vulkan,--disable-vulkan,vulkan-loader"
 PACKAGECONFIG[wayland]         = "--enable-wayland,--disable-wayland,wayland-native wayland wayland-protocols libdrm"
 PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
 PACKAGECONFIG[webrtc]          = "--enable-webrtc,--disable-webrtc,libnice"
 PACKAGECONFIG[webrtcdsp]       = "--enable-webrtcdsp,--disable-webrtcdsp,webrtc-audio-processing"
 
 # these plugins have no corresponding library in OE-core or meta-openembedded:
-#   openni2 winks direct3d directsound winscreencap acm apple_media iqa
-#   android_media avc bs2b chromaprint daala dts fdkaac gme gsm kate ladspa
+#   openni2 winks direct3d directsound winscreencap apple_media iqa
+#   android_media avc bs2b chromaprint dts fdkaac gme gsm kate ladspa
 #   lv2 mpeg2enc mplex musepack nvenc ofa opensles soundtouch
-#   spandsp spc teletextdec vdpau wasapi x265 zbar
+#   spandsp teletextdec vdpau wasapi wpe x265 zbar
 
 EXTRA_OECONF += " \
     --enable-decklink \
@@ -103,15 +104,12 @@ EXTRA_OECONF += " \
     --enable-ipcpipeline \
     --enable-netsim \
     --enable-shm \
-    --enable-vcd \
-    --disable-acm \
     --disable-android_media \
     --disable-aom \
     --disable-apple_media \
     --disable-avc \
     --disable-bs2b \
     --disable-chromaprint \
-    --disable-daala \
     --disable-direct3d \
     --disable-directsound \
     --disable-dts \
@@ -132,7 +130,6 @@ EXTRA_OECONF += " \
     --disable-opensles \
     --disable-soundtouch \
     --disable-spandsp \
-    --disable-spc \
     --disable-srt \
     --disable-teletextdec \
     --disable-vdpau \
@@ -140,6 +137,7 @@ EXTRA_OECONF += " \
     --disable-wildmidi \
     --disable-winks \
     --disable-winscreencap \
+    --disable-wpe \
     --disable-x265 \
     --disable-zbar \
     ${@bb.utils.contains("TUNE_FEATURES", "mx32", "--disable-yadif", "", d)} \
